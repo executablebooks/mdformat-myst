@@ -7,6 +7,7 @@ from markdown_it import MarkdownIt
 import mdformat.plugins
 from mdformat.renderer import RenderTreeNode
 from mdformat.renderer.typing import RendererFunc
+from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
 
 
@@ -20,6 +21,10 @@ def update_mdit(mdit: MarkdownIt) -> None:
     # Enable MyST role markdown-it extension
     mdit.use(myst_role_plugin)
 
+    # Enable MyST block markdown-it extension (including "LineComment",
+    # "BlockBreak" and "Target" syntaxes)
+    mdit.use(myst_block_plugin)
+
 
 def _role_renderer(
     node: RenderTreeNode,
@@ -32,4 +37,36 @@ def _role_renderer(
     return role_name + role_content
 
 
-RENDERER_FUNCS = {"myst_role": _role_renderer}
+def _comment_renderer(
+    node: RenderTreeNode,
+    renderer_funcs: Mapping[str, RendererFunc],
+    options: Mapping[str, Any],
+    env: MutableMapping,
+) -> str:
+    return "% " + node.content
+
+
+def _blockbreak_renderer(
+    node: RenderTreeNode,
+    renderer_funcs: Mapping[str, RendererFunc],
+    options: Mapping[str, Any],
+    env: MutableMapping,
+) -> str:
+    return "+++ " + node.content
+
+
+def _target_renderer(
+    node: RenderTreeNode,
+    renderer_funcs: Mapping[str, RendererFunc],
+    options: Mapping[str, Any],
+    env: MutableMapping,
+) -> str:
+    return f"({node.content})="
+
+
+RENDERER_FUNCS = {
+    "myst_role": _role_renderer,
+    "myst_line_comment": _comment_renderer,
+    "myst_block_break": _blockbreak_renderer,
+    "myst_target": _target_renderer,
+}
