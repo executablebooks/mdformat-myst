@@ -21,7 +21,12 @@ making the tool able to format the following syntax extensions:
   Directives are parsed as if they were code fences,
   and their content is left unchanged.)
 - [roles](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-roles)
-- TODO: Add the rest
+- [inline and block "dollar math"](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#math-shortcuts)
+- [comments](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-comments)
+- [block breaks](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-blockbreaks)
+- [targets](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-targets)
+- TODO: [front matter](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#extended-block-tokens)
+- TODO: [footnotes](https://pandoc.org/MANUAL.html#footnotes)
 
 ## Install
 

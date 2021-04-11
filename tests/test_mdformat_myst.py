@@ -19,6 +19,8 @@ def test_fixtures__api(line, title, text, expected):
         "MyST Target escape",
         "MyST BlockBreak escape",
         "MyST LineComment escape",
+        "Dollarmath inline escape",
+        "Dollarmath block escape",
     }:
         pytest.xfail("TODO: Fix escapes")
     md_new = mdformat.text(text, extensions={"myst"})
@@ -36,6 +38,8 @@ def test_fixtures__cli(line, title, text, expected, tmp_path):
         "MyST Target escape",
         "MyST BlockBreak escape",
         "MyST LineComment escape",
+        "Dollarmath inline escape",
+        "Dollarmath block escape",
     }:
         pytest.xfail("TODO: Fix escapes")
     file_path = tmp_path / "test_markdown.md"

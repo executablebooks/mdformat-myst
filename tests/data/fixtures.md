@@ -102,3 +102,58 @@ That's NOT a myst target^
 \(myst_target)=
 That's NOT a myst target^
 .
+
+Dollarmath inline
+.
+Inline math: $a=1$
+.
+Inline math: $a=1$
+.
+
+Dollarmath inline escape
+.
+Escaped inline math: $a=1\$
+.
+Escaped inline math: \$a=1$
+.
+
+Dollarmath block
+.
+Block math:
+
+$$
+a=1
+$$
+.
+Block math:
+
+$$
+a=1
+$$
+.
+
+Dollarmath block escape
+.
+$$
+a=1
+$\$
+.
+\$$
+a=1
+\$$
+.
+
+Dollarmath block labeled
+.
+Labeled block math:
+
+$$
+a=1
+$$ (eq1)
+.
+Labeled block math:
+
+$$
+a=1
+$$ (eq1)
+.
