@@ -39,9 +39,7 @@ mdformat-tables = ">=0.3.0"
 [tool.poetry.dev-dependencies]
 # Tests
 pytest = "*"
-# TODO: Enable when https://github.com/jaraco/backports.entry_points_selectable/pull/3
-#       is released and poetry doesn't error.
-#pytest-randomly = "*"
+pytest-randomly = "*"
 
 # Tools
 pre-commit = "*"
