@@ -17,7 +17,7 @@ Table escape
 \| - |
 .
 | a |
-\| - |
+| \- |
 .
 
 MyST Role
