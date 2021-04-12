@@ -68,6 +68,18 @@ def _math_block_eqno_renderer(node: RenderTreeNode, context: RenderContext) -> s
     return f"$${node.content}$$ ({node.info})"
 
 
+def _escape_syntax(text: str, node: RenderTreeNode, context: RenderContext) -> str:
+    lines = text.split("\n")
+
+    for i in range(len(lines)):
+        # Three or more "+" chars are interpreted as a block break. Escape them.
+        space_removed = lines[i].replace(" ", "")
+        if space_removed.startswith("+++"):
+            lines[i] = lines[i].replace("+", "\\+", 1)
+
+    return "\n".join(lines)
+
+
 RENDERERS = {
     "myst_role": _role_renderer,
     "myst_line_comment": _comment_renderer,
@@ -77,3 +89,4 @@ RENDERERS = {
     "math_block_eqno": _math_block_eqno_renderer,
     "math_block": _math_block_renderer,
 }
+POSTPROCESSORS = {"paragraph": _escape_syntax}

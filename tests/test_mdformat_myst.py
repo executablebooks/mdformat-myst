@@ -14,10 +14,8 @@ TEST_CASES = read_fixture_file(Path(__file__).parent / "data" / "fixtures.md")
 def test_fixtures__api(line, title, text, expected):
     """Test fixtures in tests/data/fixtures.md."""
     if title in {
-        "Table escape",
         "MyST Role escape",
         "MyST Target escape",
-        "MyST BlockBreak escape",
         "MyST LineComment escape",
         "Dollarmath inline escape",
         "Dollarmath block escape",
@@ -35,7 +33,6 @@ def test_fixtures__cli(line, title, text, expected, tmp_path):
     if title in {
         "MyST Role escape",
         "MyST Target escape",
-        "MyST BlockBreak escape",
         "MyST LineComment escape",
         "Dollarmath inline escape",
         "Dollarmath block escape",
