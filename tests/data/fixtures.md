@@ -157,3 +157,34 @@ $$
 a=1
 $$ (eq1)
 .
+
+Frontmatter
+.
+---
+lastname: Blorothy
+firstname: Dorothy
+---
+Thats YAML front matter^
+.
+---
+firstname: Dorothy
+lastname: Blorothy
+---
+
+Thats YAML front matter^
+.
+
+Frontmatter escape
+.
+--\-
+not frontmatter
+-\--
+
+Thats not YAML front matter^
+.
+\---
+not frontmatter
+\---
+
+Thats not YAML front matter^
+.

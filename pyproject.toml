@@ -35,6 +35,7 @@ mdformat = ">=0.6.0,<0.7.0"
 markdown-it-py = ">=0.5.8"
 mdit-py-plugins = ">=0.2.0"
 mdformat-tables = ">=0.3.0"
+mdformat-frontmatter = { git = "https://github.com/hukkinj1/mdformat-frontmatter", branch = "mdformat-0.6.x" }
 
 [tool.poetry.dev-dependencies]
 # Tests

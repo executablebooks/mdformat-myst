@@ -19,6 +19,12 @@ def update_mdit(mdit: MarkdownIt) -> None:
         mdit.options["parser_extension"].append(tables_plugin)
         tables_plugin.update_mdit(mdit)
 
+    # Enable mdformat-frontmatter plugin
+    frontmatter_plugin = mdformat.plugins.PARSER_EXTENSIONS["frontmatter"]
+    if frontmatter_plugin not in mdit.options["parser_extension"]:
+        mdit.options["parser_extension"].append(frontmatter_plugin)
+        frontmatter_plugin.update_mdit(mdit)
+
     # Enable MyST role markdown-it extension
     mdit.use(myst_role_plugin)
 
