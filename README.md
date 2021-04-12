@@ -26,7 +26,7 @@ making the tool able to format the following syntax extensions:
 - [block breaks](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-blockbreaks)
 - [targets](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-targets)
 - [front matter](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#extended-block-tokens)
-- TODO: [footnotes](https://pandoc.org/MANUAL.html#footnotes)
+- [footnotes](https://pandoc.org/MANUAL.html#footnotes)
 
 ## Install
 
