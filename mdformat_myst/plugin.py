@@ -10,6 +10,7 @@ from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
 
 _TARGET_PATTERN = re.compile(r"^\s*\(([a-zA-Z0-9|@<>*./_\-+:]{1,100})\)=\s*$")
+_ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]{1,36}})")
 
 
 def update_mdit(mdit: MarkdownIt) -> None:
@@ -72,7 +73,7 @@ def _math_block_eqno_renderer(node: RenderTreeNode, context: RenderContext) -> s
     return f"$${node.content}$$ ({node.info})"
 
 
-def _escape_syntax(text: str, node: RenderTreeNode, context: RenderContext) -> str:
+def _escape_paragraph(text: str, node: RenderTreeNode, context: RenderContext) -> str:
     lines = text.split("\n")
 
     for i in range(len(lines)):
@@ -93,6 +94,12 @@ def _escape_syntax(text: str, node: RenderTreeNode, context: RenderContext) -> s
     return "\n".join(lines)
 
 
+def _escape_text(text: str, node: RenderTreeNode, context: RenderContext) -> str:
+    # Escape MyST role names
+    text = _ROLE_NAME_PATTERN.sub(r"\\\1", text)
+    return text
+
+
 RENDERERS = {
     "myst_role": _role_renderer,
     "myst_line_comment": _comment_renderer,
@@ -102,4 +109,4 @@ RENDERERS = {
     "math_block_eqno": _math_block_eqno_renderer,
     "math_block": _math_block_renderer,
 }
-POSTPROCESSORS = {"paragraph": _escape_syntax}
+POSTPROCESSORS = {"paragraph": _escape_paragraph, "text": _escape_text}
