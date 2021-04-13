@@ -72,10 +72,15 @@ def _escape_syntax(text: str, node: RenderTreeNode, context: RenderContext) -> s
     lines = text.split("\n")
 
     for i in range(len(lines)):
+
         # Three or more "+" chars are interpreted as a block break. Escape them.
         space_removed = lines[i].replace(" ", "")
         if space_removed.startswith("+++"):
             lines[i] = lines[i].replace("+", "\\+", 1)
+
+        # A line starting with "%" is a comment. Escape.
+        if lines[i].startswith("%"):
+            lines[i] = f"\\{lines[i]}"
 
     return "\n".join(lines)
 
