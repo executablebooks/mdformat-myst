@@ -114,7 +114,7 @@ Dollarmath inline escape
 .
 Escaped inline math: $a=1\$
 .
-Escaped inline math: \$a=1$
+Escaped inline math: \$a=1\$
 .
 
 Dollarmath block
@@ -140,7 +140,7 @@ $\$
 .
 \$$
 a=1
-\$$
+$\$
 .
 
 Dollarmath block labeled
