@@ -34,8 +34,7 @@ python = "^3.7"
 mdformat = ">=0.7.0,<0.8.0"
 markdown-it-py = ">=0.5.8"
 mdit-py-plugins = ">=0.2.0"
-# TODO: make this a PyPI dep when released
-mdformat-tables = { git = "https://github.com/hukkinj1/mdformat-tables.git", branch = "fix-escapes" }
+mdformat-tables = ">=0.4.0"
 # TODO: make this a PyPI dep when released
 mdformat-frontmatter = { git = "https://github.com/hukkinj1/mdformat-frontmatter", branch = "mdformat-0.7" }
 # TODO: make this a PyPI dep when released
