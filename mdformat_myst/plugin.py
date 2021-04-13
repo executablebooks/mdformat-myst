@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import re
+
 from markdown_it import MarkdownIt
 import mdformat.plugins
 from mdformat.renderer import RenderContext, RenderTreeNode
 from mdit_py_plugins.dollarmath import dollarmath_plugin
 from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
+
+_TARGET_PATTERN = re.compile(r"^\s*\(([a-zA-Z0-9|@<>*./_\-+:]{1,100})\)=\s*$")
 
 
 def update_mdit(mdit: MarkdownIt) -> None:
@@ -81,6 +85,10 @@ def _escape_syntax(text: str, node: RenderTreeNode, context: RenderContext) -> s
         # A line starting with "%" is a comment. Escape.
         if lines[i].startswith("%"):
             lines[i] = f"\\{lines[i]}"
+
+        # Escape lines that look like targets
+        if _TARGET_PATTERN.search(lines[i]):
+            lines[i] = lines[i].replace("(", "\\(", 1)
 
     return "\n".join(lines)
 

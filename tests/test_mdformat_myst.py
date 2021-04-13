@@ -15,7 +15,6 @@ def test_fixtures__api(line, title, text, expected):
     """Test fixtures in tests/data/fixtures.md."""
     if title in {
         "MyST Role escape",
-        "MyST Target escape",
         "Dollarmath inline escape",
         "Dollarmath block escape",
     }:
@@ -31,7 +30,6 @@ def test_fixtures__cli(line, title, text, expected, tmp_path):
     """Test fixtures in tests/data/fixtures.md."""
     if title in {
         "MyST Role escape",
-        "MyST Target escape",
         "Dollarmath inline escape",
         "Dollarmath block escape",
     }:
