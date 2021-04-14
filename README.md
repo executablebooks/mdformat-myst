@@ -1,7 +1,7 @@
 [![Build Status](https://github.com/hukkinj1/mdformat-myst/workflows/Tests/badge.svg?branch=master)](https://github.com/hukkinj1/mdformat-myst/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush)
 [![PyPI version](https://img.shields.io/pypi/v/mdformat-myst)](https://pypi.org/project/mdformat-myst)
 
-# mdformat-myst \[IN DEVELOPMENT\]
+# mdformat-myst
 
 > Mdformat plugin for MyST compatibility
 
