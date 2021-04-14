@@ -36,8 +36,6 @@ markdown-it-py = "*"  # Let `mdformat` choose version boundaries for `markdown-i
 mdit-py-plugins = ">=0.2.0,<0.3.0"
 mdformat-tables = ">=0.4.0"
 mdformat-frontmatter = ">=0.3.1"
-# TODO: make this a PyPI dep when released
-mdformat-footnote = { git = "https://github.com/hukkinj1/mdformat-footnote", branch = "mdformat-0.6" }
 
 [tool.poetry.dev-dependencies]
 # Tests

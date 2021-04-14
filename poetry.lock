@@ -136,29 +136,6 @@ markdown-it-py = ">=0.5.5,<0.7.0"
 typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [[package]]
-name = "mdformat_footnote"
-version = "0.0.4"
-description = "An mdformat plugin for parsing/validating footnotes"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-develop = false
-
-[package.dependencies]
-mdformat = ">=0.7.0,<0.8.0"
-mdit-py-plugins = "*"
-
-[package.extras]
-dev = ["pre-commit"]
-test = ["pytest (>=6.0,<7.0)", "coverage", "pytest-cov"]
-
-[package.source]
-type = "git"
-url = "https://github.com/hukkinj1/mdformat-footnote"
-reference = "mdformat-0.6"
-resolved_reference = "135970477228daa43b118be0b561769820771385"
-
-[[package]]
 name = "mdformat-frontmatter"
 version = "0.3.1"
 description = "An mdformat plugin for parsing / ignoring frontmatter."
@@ -425,7 +402,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "1ea9e6816d587af9913f3d9bb743b0701c1b96470e5f6eb4c28468a441dee07d"
+content-hash = "29373a8188f7625c5af6230371ddd2e751cf667f03ad7800c1163be7e152ec9c"
 
 [metadata.files]
 appdirs = [
@@ -480,7 +457,6 @@ mdformat = [
     {file = "mdformat-0.7.1-py3-none-any.whl", hash = "sha256:be9abe02a354e90fae4b169d82763143aea63a64e4996f1afe55ee92e75379bf"},
     {file = "mdformat-0.7.1.tar.gz", hash = "sha256:57ed86e79c4abfb9f031b99ee405be5fdc88de066a01a11e0813b34eb509c538"},
 ]
-mdformat_footnote = []
 mdformat-frontmatter = [
     {file = "mdformat_frontmatter-0.3.1-py3-none-any.whl", hash = "sha256:f143643fc95be2287adf735f7f28fb72d3bc969870e994d0e9cfc63e1bc5c4dd"},
     {file = "mdformat_frontmatter-0.3.1.tar.gz", hash = "sha256:5e633a65fe07b5545e5efd1786abde06c7f439f51b6673e70149e24ab09d1dd2"},
