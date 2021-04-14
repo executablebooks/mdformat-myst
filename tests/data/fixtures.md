@@ -167,8 +167,8 @@ firstname: Dorothy
 Thats YAML front matter^
 .
 ---
-firstname: Dorothy
 lastname: Blorothy
+firstname: Dorothy
 ---
 
 Thats YAML front matter^
