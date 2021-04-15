@@ -54,7 +54,10 @@ def _comment_renderer(node: RenderTreeNode, context: RenderContext) -> str:
 
 
 def _blockbreak_renderer(node: RenderTreeNode, context: RenderContext) -> str:
-    return "+++ " + node.content
+    text = "+++"
+    if node.content:
+        text += f" {node.content}"
+    return text
 
 
 def _target_renderer(node: RenderTreeNode, context: RenderContext) -> str:

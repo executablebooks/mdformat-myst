@@ -73,6 +73,19 @@ a line
 another line
 .
 
+MyST BlockBreak: empty content
+.
+a line
++++ 
+another line
+.
+a line
+
++++
+
+another line
+.
+
 MyST BlockBreak escape
 .
 a line
