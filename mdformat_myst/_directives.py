@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping, MutableMapping, Sequence
 import io
 
 from mdformat.renderer import LOGGER, RenderContext, RenderTreeNode
@@ -91,11 +92,14 @@ def format_directive_content(raw_content: str) -> str:
     if formatted_yaml == "null\n":
         formatted_yaml = ""
 
-    return "---\n" + formatted_yaml + "---\n" + content
+    formatted = "---\n" + formatted_yaml + "---\n"
+    if content:
+        formatted += content + "\n"
+    return formatted
 
 
 def parse_opts_and_content(raw_content: str) -> tuple[str, str] | None:
-    lines = raw_content.split("\n")
+    lines = raw_content.splitlines()
     line = lines.pop(0)
     yaml_lines = []
     if all(c == "-" for c in line) and len(line) >= 3:
@@ -114,10 +118,19 @@ def parse_opts_and_content(raw_content: str) -> tuple[str, str] | None:
     else:
         return None
 
-    # If first line is empty but second line isn't, we can remove the first line
-    if len(lines) >= 2 and not lines[0].strip() and lines[1].strip():
+    first_line_is_empty_but_second_line_isnt = (
+        len(lines) >= 2 and not lines[0].strip() and lines[1].strip()
+    )
+    exactly_one_empty_line = len(lines) == 1 and not lines[0].strip()
+    if first_line_is_empty_but_second_line_isnt or exactly_one_empty_line:
         lines.pop(0)
 
     unformatted_yaml = "\n".join(yaml_lines)
     content = "\n".join(lines)
     return unformatted_yaml, content
+
+
+def render_fence_html(
+    self, tokens: Sequence, idx: int, options: Mapping, env: MutableMapping
+) -> str:
+    return ""

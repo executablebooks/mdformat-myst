@@ -329,3 +329,17 @@ Content
 Content
 ```
 .
+
+MyST directive no content
+.
+``` {some-directive} args
+  :letter: a
+
+```
+.
+```{some-directive} args
+---
+letter: a
+---
+```
+.
