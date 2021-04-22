@@ -10,8 +10,16 @@ from mdit_py_plugins.footnote import footnote_plugin
 from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
 
+from mdformat_myst._directives import fence
+
 _TARGET_PATTERN = re.compile(r"^\s*\(([a-zA-Z0-9|@<>*./_\-+:]{1,100})\)=\s*$")
 _ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]{1,36}})")
+
+
+# Formatting changes in directive options change AST,
+# because the parser currently thinks that directives are
+# normal code fences.
+CHANGES_AST = True
 
 
 def update_mdit(mdit: MarkdownIt) -> None:
@@ -139,5 +147,6 @@ RENDERERS = {
     "footnote": _footnote_renderer,
     "footnote_ref": _footnote_ref_renderer,
     "footnote_block": _render_children,
+    "fence": fence,
 }
 POSTPROCESSORS = {"paragraph": _escape_paragraph, "text": _escape_text}
