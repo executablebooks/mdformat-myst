@@ -17,9 +17,6 @@ making the tool able to format the following syntax extensions:
 
 - [tables](https://github.github.com/gfm/#tables-extension-)
 - [directives](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-directives)
-  (No special handling is implemented currently.
-  Directives are parsed as if they were code fences,
-  and their content is left unchanged.)
 - [roles](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-roles)
 - [inline and block "dollar math"](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#math-shortcuts)
 - [comments](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#syntax-comments)

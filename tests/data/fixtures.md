@@ -248,3 +248,98 @@ Here is a [link]
 
 [link]: https://www.python.org
 .
+
+
+MyST directive YAML
+.
+``` {some-directive} args
+  :option1:  1
+  :option2:   hello
+Content
+```
+
+``` {some-directive} args
+  :option1:  1
+  :option2:   hello
+
+Content
+```
+
+``` {some-directive} args
+---
+option1:  1
+option2:   hello
+---
+Content
+```
+
+``` {some-directive} args
+---
+  option1:  1
+  option2:   hello
+---
+
+Content
+```
+.
+```{some-directive} args
+---
+option1: 1
+option2: hello
+---
+Content
+```
+
+```{some-directive} args
+---
+option1: 1
+option2: hello
+---
+Content
+```
+
+```{some-directive} args
+---
+option1: 1
+option2: hello
+---
+Content
+```
+
+```{some-directive} args
+---
+option1: 1
+option2: hello
+---
+Content
+```
+.
+
+
+MyST directive empty YAML
+.
+``` {some-directive} args
+  :
+Content
+```
+.
+```{some-directive} args
+---
+---
+Content
+```
+.
+
+MyST directive no content
+.
+``` {some-directive} args
+  :letter: a
+
+```
+.
+```{some-directive} args
+---
+letter: a
+---
+```
+.
