@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Mapping, MutableMapping, Sequence
 import io
 
+from markdown_it import MarkdownIt
 from mdformat.renderer import LOGGER, RenderContext, RenderTreeNode
 import ruamel.yaml
 
@@ -131,6 +132,6 @@ def parse_opts_and_content(raw_content: str) -> tuple[str, str] | None:
 
 
 def render_fence_html(
-    self, tokens: Sequence, idx: int, options: Mapping, env: MutableMapping
+    self: MarkdownIt, tokens: Sequence, idx: int, options: Mapping, env: MutableMapping
 ) -> str:
     return ""
