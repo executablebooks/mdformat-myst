@@ -49,6 +49,20 @@ a line
 another line
 .
 
+MyST LineComment - multiline
+.
+a line
+% a multiline
+%comment
+%      yep
+.
+a line
+
+% a multiline
+%comment
+%      yep
+.
+
 MyST LineComment escape
 .
 a line

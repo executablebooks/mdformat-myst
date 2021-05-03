@@ -59,7 +59,7 @@ def _role_renderer(node: RenderTreeNode, context: RenderContext) -> str:
 
 
 def _comment_renderer(node: RenderTreeNode, context: RenderContext) -> str:
-    return "% " + node.content
+    return "%" + node.content.replace("\n", "\n%")
 
 
 def _blockbreak_renderer(node: RenderTreeNode, context: RenderContext) -> str:
