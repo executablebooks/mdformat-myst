@@ -55,12 +55,16 @@ a line
 % a multiline
 %comment
 %      yep
+
+% another comment
 .
 a line
 
 % a multiline
 %comment
 %      yep
+
+% another comment
 .
 
 MyST LineComment escape
