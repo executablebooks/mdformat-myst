@@ -35,7 +35,7 @@ mdformat = ">=0.7.0,<0.8.0"
 markdown-it-py = "*"  # Let `mdformat` choose version boundaries for `markdown-it-py`
 mdit-py-plugins = ">=0.2.7,<0.3.0"
 mdformat-tables = ">=0.4.0"
-mdformat-frontmatter = ">=0.3.1"
+mdformat-frontmatter = ">=0.3.2"
 "ruamel.yaml" = ">=0.16.0"
 
 [tool.poetry.dev-dependencies]
@@ -65,3 +65,33 @@ profile = "black"
 [tool.pytest.ini_options]
 addopts = "--strict-markers --strict-config"
 xfail_strict = true
+
+
+[tool.mypy]
+warn_unreachable = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+# Disabling incremental mode is required for `warn_unused_configs = true` to work
+incremental = false
+disallow_untyped_defs = true
+check_untyped_defs = true
+strict_equality = true
+implicit_reexport = false
+no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "markdown_it.*"
+implicit_reexport = true
+
+[[tool.mypy.overrides]]
+module = "mdit_py_plugins.*"
+implicit_reexport = true
+
+[[tool.mypy.overrides]]
+module = "ruamel.yaml.*"
+implicit_reexport = true
