@@ -1,5 +1,6 @@
-[![Build Status](https://github.com/hukkinj1/mdformat-myst/workflows/Tests/badge.svg?branch=master)](https://github.com/hukkinj1/mdformat-myst/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush)
-[![PyPI version](https://img.shields.io/pypi/v/mdformat-myst)](https://pypi.org/project/mdformat-myst)
+[![Build Status][ci-badge]][ci-link]
+[![codecov.io][codecov-badge]][codecov-link]
+[![PyPI version][pypi-badge]][pypi-link]
 
 # mdformat-myst
 
@@ -36,3 +37,10 @@ pip install mdformat-myst
 ```sh
 mdformat <filename>
 ```
+
+[ci-badge]: https://github.com/executablebooks/mdformat-myst/workflows/Tests/badge.svg?branch=master
+[ci-link]: https://github.com/executablebooks/mdformat-myst/actions?query=workflow%3ATest+branch%3Amaster+event%3Apush
+[codecov-badge]: https://codecov.io/gh/executablebooks/mdformat-myst/branch/master/graph/badge.svg
+[codecov-link]: https://codecov.io/gh/executablebooks/mdformat-myst
+[pypi-badge]: https://img.shields.io/pypi/v/mdformat-myst.svg
+[pypi-link]: https://pypi.org/project/mdformat-myst
