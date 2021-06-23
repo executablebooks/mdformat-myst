@@ -13,12 +13,22 @@ TEST_CASES = read_fixture_file(Path(__file__).parent / "data" / "fixtures.md")
 )
 def test_fixtures__api(line, title, text, expected):
     """Test fixtures in tests/data/fixtures.md."""
-    md_new = mdformat.text(text, extensions={"myst"})
+    md_new = mdformat.text(
+        text, extensions={"myst"}, options={"myst_extensions": {"dollarmath"}}
+    )
     try:
         assert md_new == expected
     except Exception:
         print(md_new)
         raise
+
+
+def test_cli_unsupported_extension(tmp_path):
+    file_path = tmp_path / "test_markdown.md"
+    file_path.write_text("a")
+
+    with pytest.raises(SystemExit):
+        mdformat._cli.run([str(file_path), "--myst-extensions", "a"])
 
 
 @pytest.mark.parametrize(
@@ -28,6 +38,6 @@ def test_fixtures__cli(line, title, text, expected, tmp_path):
     """Test fixtures in tests/data/fixtures.md."""
     file_path = tmp_path / "test_markdown.md"
     file_path.write_text(text)
-    assert mdformat._cli.run([str(file_path)]) == 0
+    assert mdformat._cli.run([str(file_path), "--myst-extensions", "dollarmath"]) == 0
     md_new = file_path.read_text()
     assert md_new == expected
