@@ -9,12 +9,23 @@ on:
 
 jobs:
 
-  build:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - uses: pre-commit/action@v2.0.0
+
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,40 +36,62 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Installation (deps and package)
+      # we install with flit --pth-file,
+      # so that coverage will be recorded for the module
       run: |
-        pip install "poetry==1.1.5"
-        poetry config virtualenvs.create false
-        poetry install --no-interaction --no-ansi
+        pip install flit
+        flit install --deps=production --extras=test --pth-file
 
-    - name: Linters
-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.7'
+    - name: Run pytest
       run: |
-        pre-commit run -a
-        mypy .
+        pytest --cov=mdformat_deflist --cov-report=xml --cov-report=term-missing
 
-    - name: Test with pytest
+    - name: Upload to Codecov
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == 3.8
+      uses: codecov/codecov-action@v1
+      with:
+        name: pytests
+        flags: pytests
+        file: ./coverage.xml
+        fail_ci_if_error: true
+
+  pre-commit-hook:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Installation (deps and package)
       run: |
-        pytest
+        pip install pre-commit
+        pip install .
 
-  pypi-publish:
-    # Only publish if all other jobs succeed
-    needs:
-      - build
+    - name: run pre-commit with plugin
+      run: |
+        pre-commit run --config .pre-commit-test.yaml --all-files --verbose --show-diff-on-failure
+
+  publish:
+    name: Publish to PyPi
+    needs: [pre-commit, tests, pre-commit-hook]
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      - name: Install Poetry
-        run: |
-          pip install "poetry==1.1.5"
-      - name: Build and publish
-        run: |
-          # TODO: Remove the first command as soon as this Poetry bug is fixed: https://github.com/python-poetry/poetry/issues/2210
-          poetry config http-basic.pypi "__token__" "${POETRY_PYPI_TOKEN_PYPI}"
-          poetry build
-          poetry publish
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: install flit
+      run: |
+        pip install flit~=3.0
+    - name: Build and publish
+      run: |
+        flit publish
+      env:
+        FLIT_USERNAME: __token__
+        FLIT_PASSWORD: ${{ secrets.PYPI_KEY }}

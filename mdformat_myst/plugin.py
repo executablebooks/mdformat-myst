@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from textwrap import indent
 
 from markdown_it import MarkdownIt
 import mdformat.plugins
@@ -90,16 +91,20 @@ def _footnote_ref_renderer(node: RenderTreeNode, context: RenderContext) -> str:
 
 
 def _footnote_renderer(node: RenderTreeNode, context: RenderContext) -> str:
-    text = f"[^{node.meta['label']}]: "
-    child_iterator = iter(node.children)
-    first_child = next(child_iterator)
-    if first_child.type == "footnote_anchor":
-        return text
+    first_line = f"[^{node.meta['label']}]:"
+    elements = []
+    for child in node.children:
+        if child.type == "footnote_anchor":
+            continue
+        elements.append(child.render(context))
+    body = indent("\n\n".join(elements), " " * 4)
+    # if the first body element is a paragraph, we can start on the first line,
+    # otherwise we start on the second line
+    if body and node.children and node.children[0].type != "paragraph":
+        body = "\n" + body
     else:
-        text += first_child.render(context)
-    for child in child_iterator:
-        text += "\n\n    " + child.render(context)
-    return text
+        body = " " + body.lstrip()
+    return first_line + body
 
 
 def _render_children(node: RenderTreeNode, context: RenderContext) -> str:
