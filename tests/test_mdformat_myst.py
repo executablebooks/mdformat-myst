@@ -14,7 +14,11 @@ TEST_CASES = read_fixture_file(Path(__file__).parent / "data" / "fixtures.md")
 def test_fixtures__api(line, title, text, expected):
     """Test fixtures in tests/data/fixtures.md."""
     md_new = mdformat.text(text, extensions={"myst"})
-    assert md_new == expected
+    try:
+        assert md_new == expected
+    except Exception:
+        print(md_new)
+        raise
 
 
 @pytest.mark.parametrize(

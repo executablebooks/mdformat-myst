@@ -242,7 +242,7 @@ Here is a footnote reference,[^1] and another.[^longnote]
 [^longnote]: Here's one with multiple blocks.
 
     Subsequent paragraphs are indented to show that they
-belong to the previous footnote.
+    belong to the previous footnote.
 
     Third paragraph here.
 .
@@ -265,6 +265,39 @@ Here is a [link]
 [^1]: Here is the footnote.
 
 [link]: https://www.python.org
+.
+
+footnote-indentation
+.
+[^a]
+
+[^a]: first paragraph with
+unindented next line.
+
+    paragraph with
+    indented next line
+
+    paragraph with
+unindented next line
+
+    ```
+    content
+    ```
+.
+[^a]
+
+[^a]: first paragraph with
+    unindented next line.
+
+    paragraph with
+    indented next line
+
+    paragraph with
+    unindented next line
+
+    ```
+    content
+    ```
 .
 
 
