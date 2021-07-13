@@ -100,6 +100,8 @@ def format_directive_content(raw_content: str) -> str:
 
 
 def parse_opts_and_content(raw_content: str) -> tuple[str, str] | None:
+    if not raw_content:
+        return None
     lines = raw_content.splitlines()
     line = lines.pop(0)
     yaml_lines = []
