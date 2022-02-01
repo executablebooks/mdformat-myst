@@ -394,3 +394,12 @@ letter: a
 ---
 ```
 .
+
+MyST directive, no opts or content
+.
+``` {some-directive} args
+```
+.
+```{some-directive} args
+```
+.
