@@ -13,8 +13,8 @@ from mdit_py_plugins.myst_role import myst_role_plugin
 
 from mdformat_myst._directives import fence, render_fence_html
 
-_TARGET_PATTERN = re.compile(r"^\s*\(([a-zA-Z0-9|@<>*./_\-+:]{1,100})\)=\s*$")
-_ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]{1,36}})")
+_TARGET_PATTERN = re.compile(r"^\s*\(.+\)=\s*$")
+_ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]+})")
 
 
 def update_mdit(mdit: MarkdownIt) -> None:
@@ -82,7 +82,7 @@ def _math_block_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"$${node.content}$$"
 
 
-def _math_block_eqno_renderer(node: RenderTreeNode, context: RenderContext) -> str:
+def _math_block_label_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"$${node.content}$$ ({node.info})"
 
 
@@ -148,7 +148,7 @@ RENDERERS = {
     "myst_block_break": _blockbreak_renderer,
     "myst_target": _target_renderer,
     "math_inline": _math_inline_renderer,
-    "math_block_eqno": _math_block_eqno_renderer,
+    "math_block_label": _math_block_label_renderer,
     "math_block": _math_block_renderer,
     "footnote": _footnote_renderer,
     "footnote_ref": _footnote_ref_renderer,

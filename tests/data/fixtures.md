@@ -128,10 +128,13 @@ That's a myst target^
 MyST Target escape
 .
 (myst_target\)=
-That's NOT a myst target^
+That's a myst target^
+The escape has no effect
 .
-\(myst_target)=
-That's NOT a myst target^
+(myst_target\)=
+
+That's a myst target^
+The escape has no effect
 .
 
 Dollarmath inline
