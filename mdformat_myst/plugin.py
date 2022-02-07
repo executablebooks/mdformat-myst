@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import argparse
 import re
 from textwrap import indent
+from typing import Set
 
 from markdown_it import MarkdownIt
 import mdformat.plugins
@@ -16,8 +18,35 @@ from mdformat_myst._directives import fence, render_fence_html
 _TARGET_PATTERN = re.compile(r"^\s*\(.+\)=\s*$")
 _ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]+})")
 
+# TODO eventually support all in:
+# https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
+SUPPORTED_EXTENSIONS = {"dollarmath"}
+
+
+def _extension_arg_type(arg: str) -> Set[str]:
+    """Convert extension list to set and validate."""
+    extensions = set(arg.split(","))
+    unallowed_extensions = extensions.difference(SUPPORTED_EXTENSIONS)
+    if unallowed_extensions:
+        raise ValueError(f"Unsupported myst extensions: {unallowed_extensions!r}")
+    return extensions
+
+
+def add_cli_options(parser: argparse.ArgumentParser) -> None:
+    """Add options to the mdformat CLI, to be stored in
+    ``mdit.options["mdformat"]``"""
+    parser.add_argument(
+        "--myst-extensions",
+        dest="myst_extensions",
+        type=_extension_arg_type,
+        default="dollarmath",
+        help="Comma-delimited list of MyST syntax extensions",
+        metavar="|".join(SUPPORTED_EXTENSIONS),
+    )
+
 
 def update_mdit(mdit: MarkdownIt) -> None:
+    myst_extensions = mdit.options.get("mdformat", {}).get("myst_extensions", set())
     # Enable mdformat-tables plugin
     tables_plugin = mdformat.plugins.PARSER_EXTENSIONS["tables"]
     if tables_plugin not in mdit.options["parser_extension"]:
@@ -38,7 +67,8 @@ def update_mdit(mdit: MarkdownIt) -> None:
     mdit.use(myst_block_plugin)
 
     # Enable dollarmath markdown-it extension
-    mdit.use(dollarmath_plugin)
+    if "dollarmath" in myst_extensions:
+        mdit.use(dollarmath_plugin)
 
     # Enable footnote markdown-it extension
     mdit.use(footnote_plugin)
