@@ -25,7 +25,8 @@ requires=[
     "mdit-py-plugins >=0.3.0,<0.4.0",
     "mdformat-tables >=0.4.0",
     "mdformat-frontmatter >=0.3.2",
-    "ruamel.yaml >=0.16.0"
+    "mdformat-footnote >=0.1.1",
+    "ruamel.yaml >=0.16.0",
 ]
 
 [tool.flit.metadata.requires-extra]
