@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import re
-from textwrap import indent
 
 from markdown_it import MarkdownIt
 import mdformat.plugins
 from mdformat.renderer import RenderContext, RenderTreeNode
 from mdit_py_plugins.dollarmath import dollarmath_plugin
-from mdit_py_plugins.footnote import footnote_plugin
 from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
 
@@ -30,6 +28,12 @@ def update_mdit(mdit: MarkdownIt) -> None:
         mdit.options["parser_extension"].append(frontmatter_plugin)
         frontmatter_plugin.update_mdit(mdit)
 
+    # Enable mdformat-footnote plugin
+    footnote_plugin = mdformat.plugins.PARSER_EXTENSIONS["footnote"]
+    if footnote_plugin not in mdit.options["parser_extension"]:
+        mdit.options["parser_extension"].append(footnote_plugin)
+        footnote_plugin.update_mdit(mdit)
+
     # Enable MyST role markdown-it extension
     mdit.use(myst_role_plugin)
 
@@ -39,11 +43,6 @@ def update_mdit(mdit: MarkdownIt) -> None:
 
     # Enable dollarmath markdown-it extension
     mdit.use(dollarmath_plugin)
-
-    # Enable footnote markdown-it extension
-    mdit.use(footnote_plugin)
-    # MyST has inline footnotes disabled
-    mdit.disable("footnote_inline")
 
     # Trick `mdformat`s AST validation by removing HTML rendering of code
     # blocks and fences. Directives are parsed as code fences and we
@@ -84,27 +83,6 @@ def _math_block_renderer(node: RenderTreeNode, context: RenderContext) -> str:
 
 def _math_block_label_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"$${node.content}$$ ({node.info})"
-
-
-def _footnote_ref_renderer(node: RenderTreeNode, context: RenderContext) -> str:
-    return f"[^{node.meta['label']}]"
-
-
-def _footnote_renderer(node: RenderTreeNode, context: RenderContext) -> str:
-    first_line = f"[^{node.meta['label']}]:"
-    elements = []
-    for child in node.children:
-        if child.type == "footnote_anchor":
-            continue
-        elements.append(child.render(context))
-    body = indent("\n\n".join(elements), " " * 4)
-    # if the first body element is a paragraph, we can start on the first line,
-    # otherwise we start on the second line
-    if body and node.children and node.children[0].type != "paragraph":
-        body = "\n" + body
-    else:
-        body = " " + body.lstrip()
-    return first_line + body
 
 
 def _render_children(node: RenderTreeNode, context: RenderContext) -> str:
@@ -150,9 +128,6 @@ RENDERERS = {
     "math_inline": _math_inline_renderer,
     "math_block_label": _math_block_label_renderer,
     "math_block": _math_block_renderer,
-    "footnote": _footnote_renderer,
-    "footnote_ref": _footnote_ref_renderer,
-    "footnote_block": _render_children,
     "fence": fence,
 }
 POSTPROCESSORS = {"paragraph": _escape_paragraph, "text": _escape_text}
