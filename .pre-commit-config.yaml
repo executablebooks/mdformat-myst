@@ -17,7 +17,7 @@ repos:
   rev: cf75673e1a2c993025a2113ce194d5c65f311c85  # frozen: 21.5b2
   hooks:
   - id: black
-- repo: https://gitlab.com/pycqa/flake8
+- repo: https://github.com/PyCQA/flake8
   rev: dcd740bc0ebaf2b3d43e59a0060d157c97de13f3  # frozen: 3.9.2
   hooks:
   - id: flake8

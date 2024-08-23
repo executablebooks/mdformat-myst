@@ -6,7 +6,7 @@ build-backend = "flit_core.buildapi"
 [tool.flit.metadata]
 module = "mdformat_myst"
 author = "Taneli Hukkinen"
-maintainer = "Executable Book Project" 
+maintainer = "Executable Book Project"
 maintainer-email = "executablebooks@gmail.com"
 description-file = "README.md"
 home-page = "https://github.com/hukkinj1/mdformat-myst"
