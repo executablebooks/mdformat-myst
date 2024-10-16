@@ -87,12 +87,14 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.8
-    - name: install flit
+    - name: install flit and twine
       run: |
-        pip install flit~=3.0
+        pip install flit~=3.0 twine
     - name: Build and publish
       run: |
-        flit publish
+        flit build
+        twine check --strict dist/*
+        twine upload dist/*
       env:
-        FLIT_USERNAME: __token__
-        FLIT_PASSWORD: ${{ secrets.PYPI_KEY }}
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
