@@ -81,6 +81,11 @@ def _math_block_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"$${node.content}$$"
 
 
+def _math_inline_double_renderer(node: RenderTreeNode, context: RenderContext) -> str:
+    # formats the inline doubles as math blocks
+    return f"\n$$\n{node.content.strip()}\n$$\n"
+
+
 def _math_block_label_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"$${node.content}$$ ({node.info})"
 
@@ -125,7 +130,7 @@ RENDERERS = {
     "myst_block_break": _blockbreak_renderer,
     "myst_target": _target_renderer,
     "math_inline": _math_inline_renderer,
-    "math_inline_double": _math_block_renderer,
+    "math_inline_double": _math_inline_double_renderer,
     "math_block_label": _math_block_label_renderer,
     "math_block": _math_block_renderer,
     "fence": fence,
