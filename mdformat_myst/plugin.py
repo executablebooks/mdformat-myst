@@ -122,11 +122,12 @@ def container_renderer(
     if children:
         # Look at the tokens forming the first paragraph and see if
         # they form a YAML header. This could be stricter: there
-        # should be exactly three tokens: paragraph start, YAML
+        # should be exactly three tokens: paragraph open, YAML
         # header, paragraph end.
         tokens = children[0].to_tokens()
         if all(
-            not token.content or _YAML_HEADER_PATTERN.fullmatch(token.content)
+            token.type in {'paragraph_open', 'paragraph_close'} or
+                _YAML_HEADER_PATTERN.fullmatch(token.content)
             for token in tokens
         ):
             paragraphs.append('\n'.join(token.content.strip()

@@ -422,6 +422,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 incididunt ut labore et dolore magna aliqua.
 :::
 
+::::{admonition} MyST colon fenced directive with nested directive with simple metadata
+:::{image} foo.png
+:class: foo
+:truc: bla
+:::
+::::
+
 % Admonitions with arbitrary yaml metadata are not yet supported.
 % Issue: in a container, the `---` is interpreted as hrule by the parser
 %
