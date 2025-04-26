@@ -415,7 +415,8 @@ incididunt ut labore et dolore magna aliqua.
 .
 
 :::{admonition} MyST colon fenced directive with simple metadata
-:class: foo :truc: bla
+:class: foo
+:truc: bla
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 incididunt ut labore et dolore magna aliqua.

@@ -14,7 +14,7 @@ from mdformat_myst._directives import fence, render_fence_html
 
 _TARGET_PATTERN = re.compile(r"^\s*\(.+\)=\s*$")
 _ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]+})")
-_YAML_HEADER_PATTERN = re.compile(r"(?m)(^:\w+: .*\n)+|^---$\n(?s:.).*\n---\n")
+_YAML_HEADER_PATTERN = re.compile(r"(?m)(^:\w+: .*$\n?)+|^---$\n(?s:.).*\n---\n")
 
 container_names = [
     "admonition",
@@ -116,8 +116,8 @@ def update_mdit(mdit: MarkdownIt) -> None:
 def container_renderer(
     node: RenderTreeNode, context: RenderContext, *args, **kwargs
 ) -> str:
-    result = node.markup + node.info + "\n"
     children = node.children
+    paragraphs = []
     if children:
         # Look at the tokens forming the first paragraph and see if
         # they form a YAML header. This could be stricter: there
@@ -128,19 +128,15 @@ def container_renderer(
             not token.content or _YAML_HEADER_PATTERN.fullmatch(token.content)
             for token in tokens
         ):
-            # If yes, render these tokens as is
-            for token in tokens:
-                if token.content:
-                    result += token.content + "\n"
-            result += "\n"
+            paragraphs.append('\n'.join(token.content.strip()
+                                        for token in tokens
+                                        if token.content))
             # and skip that first paragraph
             children = children[1:]
 
-    result += (
-        "\n\n".join(child.render(context) for child in children) + "\n" + node.markup
-    )
+    paragraphs.extend(child.render(context) for child in children)
 
-    return result
+    return node.markup + node.info + "\n" + "\n\n".join(paragraphs) + "\n" + node.markup
 
 
 def _role_renderer(node: RenderTreeNode, context: RenderContext) -> str:
