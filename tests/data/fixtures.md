@@ -192,6 +192,74 @@ a=1
 $$ (eq1)
 .
 
+Blockquote with dollarmath block
+.
+> $$
+a=1
+$$
+.
+> $$
+a=1
+$$
+.
+
+Long blockquote with dollarmath block
+.
+> Some words
+>
+> Block math:
+>
+> $$
+a=1
+$$
+>
+> Some more words
+.
+> Some words
+>
+> Block math:
+>
+> $$
+a=1
+$$
+>
+> Some more words
+.
+
+Blockquote with dollarmath block labeled
+.
+> $$
+a=1
+$$ (eq1)
+.
+> $$
+a=1
+$$ (eq1)
+.
+
+Long blockquote with dollarmath block labeled
+.
+> Some words
+>
+> Block math:
+>
+> $$
+a=1
+$$ (eq1)
+>
+> Some more words
+.
+> Some words
+>
+> Block math:
+>
+> $$
+a=1
+$$ (eq1)
+>
+> Some more words
+.
+
 Frontmatter
 .
 ---
