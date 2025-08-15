@@ -260,6 +260,36 @@ $$ (eq1)
 > Some more words
 .
 
+Indented dollarmath block
+.
+1. Indented math block
+
+   $$
+   a=1
+   $$
+.
+1. Indented math block
+
+   $$
+   a=1
+   $$
+.
+
+Indented dollarmath block labeled
+.
+1. Indented labeled math block
+
+   $$
+   a=1
+   $$ (eq1)
+.
+1. Indented labeled math block
+
+   $$
+   a=1
+   $$ (eq1)
+.
+
 Frontmatter
 .
 ---
