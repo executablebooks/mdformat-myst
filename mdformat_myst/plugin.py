@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import textwrap
 
 from markdown_it import MarkdownIt
 import mdformat.plugins
@@ -78,11 +79,14 @@ def _math_inline_renderer(node: RenderTreeNode, context: RenderContext) -> str:
 
 
 def _math_block_renderer(node: RenderTreeNode, context: RenderContext) -> str:
+    indent_width = context.env.get("indent_width", 0)
+    if indent_width > 0:
+        return f"$${textwrap.dedent(node.content)}$$"
     return f"$${node.content}$$"
 
 
 def _math_block_label_renderer(node: RenderTreeNode, context: RenderContext) -> str:
-    return f"$${node.content}$$ ({node.info})"
+    return f"{_math_block_renderer(node, context)} ({node.info})"
 
 
 def _math_block_safe_blockquote_renderer(
