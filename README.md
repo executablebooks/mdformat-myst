@@ -38,7 +38,7 @@ pip install mdformat-myst
 mdformat <filename>
 ```
 
-[ci-badge]: https://github.com/executablebooks/mdformat-myst/workflows/Tests/badge.svg?branch=master
+[ci-badge]: https://github.com/executablebooks/mdformat-myst/actions/workflows/tests.yml/badge.svg?branch=master
 [ci-link]: https://github.com/executablebooks/mdformat-myst/actions?query=workflow%3ATest+branch%3Amaster+event%3Apush
 [codecov-badge]: https://codecov.io/gh/executablebooks/mdformat-myst/branch/master/graph/badge.svg
 [codecov-link]: https://codecov.io/gh/executablebooks/mdformat-myst
