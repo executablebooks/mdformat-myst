@@ -2,7 +2,6 @@
 requires = ["flit_core >=2,<4"]
 build-backend = "flit_core.buildapi"
 
-
 [tool.flit.metadata]
 module = "mdformat_myst"
 author = "Taneli Hukkinen"
@@ -19,9 +18,9 @@ classifiers = [
 ]
 keywords = "mdformat,markdown,formatter,gfm"
 
-requires-python=">=3.7"
+requires-python=">=3.9"
 requires=[
-    "mdformat >=0.7.0,<0.8.0",
+    "mdformat >=0.7.0",
     "mdit-py-plugins >=0.3.0",
     "mdformat-tables >=0.4.0",
     "mdformat-frontmatter >=0.3.2",
