@@ -18,13 +18,13 @@ classifiers = [
 ]
 keywords = "mdformat,markdown,formatter,gfm"
 
-requires-python=">=3.9"
+requires-python=">=3.10"
 requires=[
-    "mdformat >=0.7.0",
+    "mdformat >=1.0.0",
     "mdit-py-plugins >=0.3.0",
-    "mdformat-tables >=0.4.0",
-    "mdformat-frontmatter >=0.3.2",
-    "mdformat-footnote >=0.1.1",
+    # "mdformat-footnote >=0.1.2", # FIXME: blocked by https://github.com/executablebooks/mdformat-footnote/issues/12#issuecomment-3419147670
+    # "mdformat-frontmatter >=0.3.2", # FIXME: blocked by https://github.com/butler54/mdformat-frontmatter/issues/37
+    "mdformat-gfm >=1.0.0",
     "ruamel.yaml >=0.16.0",
 ]
 
