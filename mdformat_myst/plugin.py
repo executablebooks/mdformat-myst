@@ -43,7 +43,7 @@ def update_mdit(mdit: MarkdownIt) -> None:
     mdit.use(myst_block_plugin)
 
     # Enable dollarmath markdown-it extension
-    mdit.use(dollarmath_plugin)
+    mdit.use(dollarmath_plugin, double_inline=True)
 
     # Trick `mdformat`s AST validation by removing HTML rendering of code
     # blocks and fences. Directives are parsed as code fences and we
@@ -85,6 +85,11 @@ def _math_block_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"$${node.content}$$"
 
 
+def _math_inline_double_renderer(node: RenderTreeNode, context: RenderContext) -> str:
+    # formats the inline doubles as math blocks
+    return f"\n$$\n{node.content.strip()}\n$$\n"
+
+
 def _math_block_label_renderer(node: RenderTreeNode, context: RenderContext) -> str:
     return f"{_math_block_renderer(node, context)} ({node.info})"
 
@@ -117,7 +122,6 @@ def _escape_paragraph(text: str, node: RenderTreeNode, context: RenderContext) -
     lines = text.split("\n")
 
     for i in range(len(lines)):
-
         # Three or more "+" chars are interpreted as a block break. Escape them.
         space_removed = lines[i].replace(" ", "")
         if space_removed.startswith("+++"):
@@ -151,6 +155,7 @@ RENDERERS = {
     "myst_block_break": _blockbreak_renderer,
     "myst_target": _target_renderer,
     "math_inline": _math_inline_renderer,
+    "math_inline_double": _math_inline_double_renderer,
     "math_block_label": _math_block_label_renderer,
     "math_block": _math_block_renderer,
     "fence": fence,
