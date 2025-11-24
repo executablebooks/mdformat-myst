@@ -22,7 +22,7 @@ requires-python = ">=3.10"
 requires = [
     "mdformat >=0.7.0",
     "mdit-py-plugins >=0.3.0",
-    "mdformat-front-matters >= 0.1.0",
+    "mdformat-front-matters >= 1.0.0",
     "mdformat-footnote >=0.1.1",
     "mdformat-gfm >=1.0.0",
     "ruamel.yaml >=0.16.0",

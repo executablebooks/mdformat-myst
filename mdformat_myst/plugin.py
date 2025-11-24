@@ -23,11 +23,11 @@ def update_mdit(mdit: MarkdownIt) -> None:
         mdit.options["parser_extension"].append(tables_plugin)
         tables_plugin.update_mdit(mdit)
 
-    # Enable mdformat-frontmatter plugin
-    frontmatter_plugin = mdformat.plugins.PARSER_EXTENSIONS["frontmatter"]
-    if frontmatter_plugin not in mdit.options["parser_extension"]:
-        mdit.options["parser_extension"].append(frontmatter_plugin)
-        frontmatter_plugin.update_mdit(mdit)
+    # Enable mdformat-front-matters plugin
+    front_matters_plugin = mdformat.plugins.PARSER_EXTENSIONS["front_matters"]
+    if front_matters_plugin not in mdit.options["parser_extension"]:
+        mdit.options["parser_extension"].append(front_matters_plugin)
+        front_matters_plugin.update_mdit(mdit)
 
     # Enable mdformat-footnote plugin
     footnote_plugin = mdformat.plugins.PARSER_EXTENSIONS["footnote"]
