@@ -9,11 +9,70 @@ from mdformat.renderer import RenderContext, RenderTreeNode
 from mdit_py_plugins.dollarmath import dollarmath_plugin
 from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
+from mdit_py_plugins.container import container_plugin
 
 from mdformat_myst._directives import fence, render_fence_html
 
 _TARGET_PATTERN = re.compile(r"^\s*\(.+\)=\s*$")
 _ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]+})")
+_YAML_HEADER_PATTERN = re.compile(r"(?m)(^:\w+: .*$\n?)+|^---$\n(?s:.).*\n---\n")
+
+container_names = [
+    "admonition",
+    "attention",
+    "caution",
+    "danger",
+    "div",
+    "dropdown",
+    "embed",
+    "error",
+    "exercise",
+    "exercise-end",
+    "exercise-start",
+    "figure",
+    "glossary",
+    "grid",
+    "grid-item",
+    "grid-item-card",
+    "hint",
+    "image",
+    "important",
+    "include",
+    "index",
+    "literal-include",
+    "margin",
+    "math",
+    "note",
+    "prf:algorithm",
+    "prf:assumption",
+    "prf:axiom",
+    "prf:conjecture",
+    "prf:corollary",
+    "prf:criterion",
+    "prf:definition",
+    "prf:example",
+    "prf:lemma",
+    "prf:observation",
+    "prf:proof",
+    "prf:property",
+    "prf:proposition",
+    "prf:remark",
+    "prf:theorem",
+    "seealso",
+    "show-index",
+    "sidebar",
+    "solution",
+    "solution-end",
+    "solution-start",
+    "span",
+    "tab-item",
+    "tab-set",
+    "table",
+    "tip",
+    "todo",
+    "topics",
+    "warning",
+]
 
 
 def update_mdit(mdit: MarkdownIt) -> None:
@@ -51,6 +110,36 @@ def update_mdit(mdit: MarkdownIt) -> None:
     # CommonMark AST, so we need to do this to make validation pass.
     mdit.add_render_rule("fence", render_fence_html)
     mdit.add_render_rule("code_block", render_fence_html)
+
+    for name in container_names:
+        container_plugin(mdit, name="{" + name + "}", marker=":")
+
+
+def container_renderer(
+    node: RenderTreeNode, context: RenderContext, *args, **kwargs
+) -> str:
+    children = node.children
+    paragraphs = []
+    if children:
+        # Look at the tokens forming the first paragraph and see if
+        # they form a YAML header. This could be stricter: there
+        # should be exactly three tokens: paragraph open, YAML
+        # header, paragraph end.
+        tokens = children[0].to_tokens()
+        if all(
+            token.type in {'paragraph_open', 'paragraph_close'} or
+                _YAML_HEADER_PATTERN.fullmatch(token.content)
+            for token in tokens
+        ):
+            paragraphs.append('\n'.join(token.content.strip()
+                                        for token in tokens
+                                        if token.content))
+            # and skip that first paragraph
+            children = children[1:]
+
+    paragraphs.extend(child.render(context) for child in children)
+
+    return node.markup + node.info + "\n" + "\n\n".join(paragraphs) + "\n" + node.markup
 
 
 def _role_renderer(node: RenderTreeNode, context: RenderContext) -> str:
@@ -155,4 +244,9 @@ RENDERERS = {
     "math_block": _math_block_renderer,
     "fence": fence,
 }
+
+
+for name in container_names:
+    RENDERERS["container_{" + name + "}"] = container_renderer
+
 POSTPROCESSORS = {"paragraph": _escape_paragraph, "text": _escape_text}
