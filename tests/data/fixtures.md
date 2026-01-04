@@ -504,3 +504,130 @@ MyST directive, no opts or content
 ```{some-directive} args
 ```
 .
+MyST colon fenced directive with title
+.
+:::{admonition} MyST colon fenced directive with a title
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+:::
+.
+:::{admonition} MyST colon fenced directive with a title
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+:::
+.
+
+MyST colon fenced directive with metadata
+.
+:::{admonition} MyST colon fenced directive with metadata
+:class: foo
+:truc: bla
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+:::
+.
+:::{admonition} MyST colon fenced directive with metadata
+---
+class: foo
+truc: bla
+---
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+:::
+.
+
+MyST colon fenced directive with nested directive
+.
+::::{admonition} Parent directive
+:::{image} foo.png
+:class: foo
+:alt: An image
+:::
+::::
+.
+::::{admonition} Parent directive
+
+:::{image} foo.png
+---
+class: foo
+alt: An image
+---
+:::
+
+::::
+.
+
+MyST colon fenced directive with multiple nested admonitions
+.
+::::{admonition} Multiple nested admonitions
+:::{admonition}
+First nested admonition content.
+:::
+:::{admonition}
+Second nested admonition content.
+:::
+:::{admonition}
+Third nested admonition content.
+:::
+::::
+.
+::::{admonition} Multiple nested admonitions
+
+:::{admonition}
+First nested admonition content.
+:::
+
+:::{admonition}
+Second nested admonition content.
+:::
+
+:::{admonition}
+Third nested admonition content.
+:::
+
+::::
+.
+
+MyST colon fenced directive with mixed content and nested directives
+.
+::::{hint} A hint with nested tips and paragraphs
+This is some introductory text.
+:::{tip}
+A nested tip with content.
+:::
+More text between directives.
+:::{tip}
+Another nested tip.
+:::
+Concluding text.
+::::
+.
+::::{hint} A hint with nested tips and paragraphs
+This is some introductory text.
+
+:::{tip}
+A nested tip with content.
+:::
+
+More text between directives.
+
+:::{tip}
+Another nested tip.
+:::
+
+Concluding text.
+::::
+.
+
+MyST colon fenced directive nested in list
+.
+- Item with directive
+  :::{tip} Nested tip in list item
+  Tip content inside a list item.
+  :::
+.
+- Item with directive
+  :::{tip} Nested tip in list item
+  Tip content inside a list item.
+  :::
+.

@@ -6,6 +6,7 @@ import textwrap
 from markdown_it import MarkdownIt
 import mdformat.plugins
 from mdformat.renderer import RenderContext, RenderTreeNode
+from mdit_py_plugins.colon_fence import colon_fence_plugin
 from mdit_py_plugins.dollarmath import dollarmath_plugin
 from mdit_py_plugins.myst_blocks import myst_block_plugin
 from mdit_py_plugins.myst_role import myst_role_plugin
@@ -17,23 +18,16 @@ _ROLE_NAME_PATTERN = re.compile(r"({[a-zA-Z0-9_\-+:]+})")
 
 
 def update_mdit(mdit: MarkdownIt) -> None:
-    # Enable mdformat-tables plugin
-    tables_plugin = mdformat.plugins.PARSER_EXTENSIONS["tables"]
-    if tables_plugin not in mdit.options["parser_extension"]:
-        mdit.options["parser_extension"].append(tables_plugin)
-        tables_plugin.update_mdit(mdit)
-
-    # Enable mdformat-front-matters plugin
-    front_matters_plugin = mdformat.plugins.PARSER_EXTENSIONS["front_matters"]
-    if front_matters_plugin not in mdit.options["parser_extension"]:
-        mdit.options["parser_extension"].append(front_matters_plugin)
-        front_matters_plugin.update_mdit(mdit)
-
-    # Enable mdformat-footnote plugin
-    footnote_plugin = mdformat.plugins.PARSER_EXTENSIONS["footnote"]
-    if footnote_plugin not in mdit.options["parser_extension"]:
-        mdit.options["parser_extension"].append(footnote_plugin)
-        footnote_plugin.update_mdit(mdit)
+    plugins_to_enable = [
+        "tables",
+        "front_matters",
+        "footnote",
+    ]
+    for plugin_name in plugins_to_enable:
+        plugin = mdformat.plugins.PARSER_EXTENSIONS[plugin_name]
+        if plugin not in mdit.options["parser_extension"]:
+            mdit.options["parser_extension"].append(plugin)
+            plugin.update_mdit(mdit)
 
     # Enable MyST role markdown-it extension
     mdit.use(myst_role_plugin)
@@ -44,6 +38,9 @@ def update_mdit(mdit: MarkdownIt) -> None:
 
     # Enable dollarmath markdown-it extension
     mdit.use(dollarmath_plugin)
+
+    # Enable support for the colon fence syntax
+    mdit.use(colon_fence_plugin)
 
     # Trick `mdformat`s AST validation by removing HTML rendering of code
     # blocks and fences. Directives are parsed as code fences and we
@@ -117,7 +114,6 @@ def _escape_paragraph(text: str, node: RenderTreeNode, context: RenderContext) -
     lines = text.split("\n")
 
     for i in range(len(lines)):
-
         # Three or more "+" chars are interpreted as a block break. Escape them.
         space_removed = lines[i].replace(" ", "")
         if space_removed.startswith("+++"):
@@ -144,8 +140,11 @@ def _escape_text(text: str, node: RenderTreeNode, context: RenderContext) -> str
     return text
 
 
+CHANGES_AST = True
 RENDERERS = {
     "blockquote": _math_block_safe_blockquote_renderer,
+    "colon_fence": fence,
+    "fence": fence,
     "myst_role": _role_renderer,
     "myst_line_comment": _comment_renderer,
     "myst_block_break": _blockbreak_renderer,
@@ -153,6 +152,5 @@ RENDERERS = {
     "math_inline": _math_inline_renderer,
     "math_block_label": _math_block_label_renderer,
     "math_block": _math_block_renderer,
-    "fence": fence,
 }
 POSTPROCESSORS = {"paragraph": _escape_paragraph, "text": _escape_text}
