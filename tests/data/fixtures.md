@@ -137,6 +137,40 @@ That's a myst target^
 The escape has no effect
 .
 
+Document block attribute order stability
+.
+{ #id2    key1="value1" .class1 .class2  key2="value2" }
+block
+.
+{#id2 .class1 .class2 key1="value1" key2="value2"}
+block
+.
+
+Block attribute collapsing
+.
+ {#id1   .class1  key1="value1"}
+{#id2 .class2 key2="value2"}
+block
+.
+{#id2 .class1 .class2 key1="value1" key2="value2"}
+block
+.
+
+Attribute attached to flowchart
+.
+{caption="`GROUPS` - Description."}
+```mermaid
+flowchart LR
+    id
+```
+.
+{caption="`GROUPS` - Description."}
+```mermaid
+flowchart LR
+    id
+```
+.
+
 Dollarmath inline
 .
 Inline math: $a=1$
