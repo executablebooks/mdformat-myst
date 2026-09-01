@@ -504,3 +504,36 @@ MyST directive, no opts or content
 ```{some-directive} args
 ```
 .
+
+
+Footnote used only in admonition
+.
+```{note}
+Hello mdformat[^myref]
+```
+
+[^myref]: my ref here
+.
+```{note}
+Hello mdformat[^myref]
+```
+
+[^myref]: my ref here
+.
+
+
+Link reference used only in admonition
+.
+```{note}
+Hello [mdformat][myref]
+```
+
+[myref]: https://example.com
+[unused]: https://unused.example
+.
+```{note}
+Hello [mdformat][myref]
+```
+
+[myref]: https://example.com
+.
