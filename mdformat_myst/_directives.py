@@ -4,11 +4,18 @@ from collections.abc import Mapping, MutableMapping, Sequence
 import io
 
 from markdown_it import MarkdownIt
+from markdown_it.token import Token
 from mdformat.renderer import LOGGER, RenderContext, RenderTreeNode
 import ruamel.yaml
 
 yaml = ruamel.yaml.YAML()
 yaml.indent(mapping=2, sequence=4, offset=2)
+
+# Parser used to find reference-style links inside MyST directive bodies.
+# Directives are tokenized as fences, so mdformat would otherwise treat those
+# links as unused and drop their definitions.
+_DIRECTIVE_REF_PARSER = MarkdownIt("commonmark")
+_DIRECTIVE_REF_PARSER.options["store_labels"] = True
 
 
 def longest_consecutive_sequence(seq: str, char: str) -> int:
@@ -31,9 +38,9 @@ def fence(node: "RenderTreeNode", context: "RenderContext") -> str:
     """Render fences (and directives).
 
     Copied from upstream `mdformat` core and should be kept up-to-date
-    if upstream introduces changes. Note that only two lines are added
-    to the upstream implementation, i.e. the condition that calls
-    `format_directive_content` function.
+    if upstream introduces changes. MyST-specific handling is the
+    directive branch that formats option YAML and records link
+    references used only inside the directive body.
     """
     info_str = node.info.strip()
     lang = info_str.split(maxsplit=1)[0] if info_str else ""
@@ -61,6 +68,7 @@ def fence(node: "RenderTreeNode", context: "RenderContext") -> str:
             )
     # This "elif" is the *only* thing added to the upstream `fence` implementation!
     elif lang.startswith("{") and lang.endswith("}"):
+        mark_refs_used_in_directive(code_block, context)
         code_block = format_directive_content(code_block)
 
     # The code block must not include as long or longer sequence of `fence_char`s
@@ -69,6 +77,46 @@ def fence(node: "RenderTreeNode", context: "RenderContext") -> str:
     fence_str = fence_char * fence_len
 
     return f"{fence_str}{info_str}\n{code_block}{fence_str}"
+
+
+def _is_myst_directive(info_str: str) -> bool:
+    lang = info_str.split(maxsplit=1)[0] if info_str.strip() else ""
+    return lang.startswith("{") and lang.endswith("}")
+
+
+def mark_refs_used_in_directive(raw_content: str, context: RenderContext) -> None:
+    """Keep link/image refs that are only referenced inside a directive."""
+    references = context.env.get("references")
+    used_refs = context.env.get("used_refs")
+    if not raw_content or not references or used_refs is None:
+        return
+    _collect_refs_from_markdown(raw_content, references, used_refs)
+
+
+def _collect_refs_from_markdown(
+    content: str,
+    references: Mapping[str, object],
+    used_refs: set[str],
+) -> None:
+    env: dict = {"references": dict(references)}
+    tokens = _DIRECTIVE_REF_PARSER.parse(content, env)
+    _collect_ref_labels(tokens, references, used_refs)
+
+
+def _collect_ref_labels(
+    tokens: Sequence[Token],
+    references: Mapping[str, object],
+    used_refs: set[str],
+) -> None:
+    for token in tokens:
+        if token.type in ("link_open", "image"):
+            label = token.meta.get("label") if token.meta else None
+            if isinstance(label, str) and label in references:
+                used_refs.add(label)
+        elif token.type == "fence" and token.content and _is_myst_directive(token.info):
+            _collect_refs_from_markdown(token.content, references, used_refs)
+        if token.children:
+            _collect_ref_labels(token.children, references, used_refs)
 
 
 def format_directive_content(raw_content: str) -> str:
